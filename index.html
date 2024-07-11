@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Network Monitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
+    <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+</head>
+<body>
+    <div id="offlineWarning">
+        You are currently offline. Some features may be unavailable.
+    </div>
+    <div class="header">
+        <h1>Real-Time Network Monitor</h1>
+    </div>
+    <div class="container">
+        <div class="dashboard">
+            <div class="card">
+                <h2>Network Status</h2>
+                <div id="networkStatus"></div>
+                <div id="networkType"></div>
+                <div id="connectionQuality"></div>
+            </div>
+            
+            <div class="card">
+                <h2>Real-time Network Metrics</h2>
+                <div class="metric">
+                    <span>Download Speed:</span>
+                    <span id="downloadSpeed" class="metric-value"></span>
+                </div>
+                <div class="metric">
+                    <span>Upload Speed:</span>
+                    <span id="uploadSpeed" class="metric-value"></span>
+                </div>
+                <div class="metric">
+                    <span>Latency:</span>
+                    <span id="latency" class="metric-value"></span>
+                </div>
+                <div class="metric">
+                    <span>Jitter:</span>
+                    <span id="jitter" class="metric-value"></span>
+                </div>
+                <div class="metric">
+                    <span>Packet Loss:</span>
+                    <span id="packetLoss" class="metric-value"></span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Network Information</h2>
+                <ul id="additionalInfo"></ul>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 20px;">
+            <h2>Network Performance Chart</h2>
+            <div class="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
+            <div class="button-container">
+                <button id="historicalDataBtn" class="btn">View Historical Data</button>
+                <button id="downloadCsvBtn" class="btn btn-secondary">Download CSV</button>
+                <button id="clearDataBtn" class="btn btn-danger">Clear Stored Data</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Network Events Log</h2>
+            <div id="networkEventsLog"></div>
+            <div class="button-container">
+                <button id="viewEventsLogBtn" class="btn">View Events Log History</button>
+                <button id="downloadEventsCsvBtn" class="btn btn-secondary">Download Events CSV</button>
+                <button id="clearEventsDataBtn" class="btn btn-danger">Clear Events Data</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Environmental Monitoring</h2>
+            <div class="env-monitoring">
+                <div class="env-card">
+                    <h3>Temperature</h3>
+                    <p id="temperature">Loading...</p>
+                </div>
+                <div class="env-card">
+                    <h3>Humidity</h3>
+                    <p id="humidity">Loading...</p>
+                </div>
+                <div class="env-card">
+                    <h3>Power Usage</h3>
+                    <p id="powerUsage">Loading...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Compliance Monitoring</h2>
+            <div class="compliance-status">
+                <div class="compliance-item">
+                    <span>GDPR Compliance</span>
+                    <span class="status-indicator" id="gdprStatus"></span>
+                </div>
+                <div class="compliance-item">
+                    <span>PCI DSS Compliance</span>
+                    <span class="status-indicator" id="pciDssStatus"></span>
+                </div>
+                <div class="compliance-item">
+                    <span>HIPAA Compliance</span>
+                    <span class="status-indicator" id="hipaaStatus"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        COPYRIGHT © 2024 Tejas Agrahari - ALL RIGHTS RESERVED
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

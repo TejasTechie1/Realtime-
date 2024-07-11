@@ -1,0 +1,178 @@
+.body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+.card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.card h2 {
+    color: #343a40;
+    margin-top: 0;
+    font-size: 1.5em;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+#networkStatus {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.metric {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.metric-value {
+    font-weight: bold;
+    color: #007bff;
+}
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+#additionalInfo {
+    list-style-type: none;
+    padding: 0;
+}
+#additionalInfo li {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.info-label {
+    font-weight: bold;
+}
+.info-value {
+    color: #007bff;
+}
+.btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    font-weight: 500;
+}
+.btn:hover {
+    background-color: #0056b3;
+}
+.btn-danger {
+    background-color: #dc3545;
+}
+.btn-danger:hover {
+    background-color: #bd2130;
+}
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.btn-secondary {
+    background-color: #6c757d;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+.footer {
+    background-color: #2383e3;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9em;
+    margin-top: 20px;
+}
+.env-monitoring {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+.env-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.env-card h3 {
+    margin-top: 0;
+    color: #343a40;
+}
+.compliance-status {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+.compliance-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.status-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.status-compliant {
+    background-color: #28a745;
+}
+.status-non-compliant {
+    background-color: #dc3545;
+}
+#offlineWarning {
+    background-color: #dc3545;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    display: none;
+}
+.network-event {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
