@@ -1,4 +1,8 @@
-let networkData = [];
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+  }
+  let networkData = [];
 const maxDataPoints = 20;
 let db;
 let chart;
@@ -155,10 +159,15 @@ async function logNetworkEvent(event) {
 
     function initChart() {
         const ctx = document.getElementById('chart').getContext('2d');
+        
+        // Destroy existing chart if it exists
+        if (chart) {
+            chart.destroy();
+        }
+        
         chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: [],
                 datasets: [
                     {
                         label: 'Download (Gbps)',
@@ -230,6 +239,7 @@ async function logNetworkEvent(event) {
         });
         console.log('Chart initialized');
     }
+    
 
     function updateChartWithStoredData() {
         if (chart) {
@@ -580,12 +590,12 @@ async function logNetworkEvent(event) {
             const transaction = db.transaction(["networkData"], "readonly");
             const objectStore = transaction.objectStore("networkData");
             const request = objectStore.getAll();
-
+    
             request.onerror = function(event) {
                 console.error("Error fetching historical data:", event.target.error);
                 reject(event.target.error);
             };
-
+    
             request.onsuccess = function(event) {
                 const data = event.target.result;
                 const formattedData = data.map(entry => ({
@@ -596,6 +606,7 @@ async function logNetworkEvent(event) {
             };
         });
     }
+    
 
     function displayHistoricalDataTable(formattedData) {
         let tableHTML = `
@@ -655,7 +666,7 @@ async function logNetworkEvent(event) {
             ].join(",");
             csvContent += row + "\n";
         });
-
+    
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
@@ -689,40 +700,41 @@ async function logNetworkEvent(event) {
     }
 
     
-async function updateChart() {
-    try {
-        const metrics = await updateNetworkMetrics();
-        console.log('Metrics for chart update:', metrics);
-
-        networkData.push(metrics);
-        if (networkData.length > maxDataPoints) {
-            networkData.shift();
+    async function updateChart() {
+        try {
+            const metrics = await updateNetworkMetrics();
+            console.log('Metrics for chart update:', metrics);
+    
+            networkData.push(metrics);
+            if (networkData.length > maxDataPoints) {
+                networkData.shift();
+            }
+            
+            await storeData(metrics);
+            
+            // Update chart data
+            chart.data.labels.push(new Date(metrics.timestamp));
+            chart.data.datasets[0].data.push({ x: metrics.timestamp, y: metrics.downloadSpeed });
+            chart.data.datasets[1].data.push({ x: metrics.timestamp, y: metrics.uploadSpeed });
+            chart.data.datasets[2].data.push({ x: metrics.timestamp, y: metrics.latency });
+            chart.data.datasets[3].data.push({ x: metrics.timestamp, y: metrics.jitter });
+            chart.data.datasets[4].data.push({ x: metrics.timestamp, y: metrics.packetLoss });
+    
+            // Remove old data points if we have more than maxDataPoints
+            if (chart.data.labels.length > maxDataPoints) {
+                chart.data.labels.shift();
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data.shift();
+                });
+            }
+    
+            chart.update();
+            console.log('Chart updated');
+        } catch (error) {
+            console.error('Error updating chart:', error);
         }
-        
-        await storeData(metrics);
-        
-        // Update chart data
-        chart.data.labels.push(new Date(metrics.timestamp));
-        chart.data.datasets[0].data.push(metrics.downloadSpeed);
-        chart.data.datasets[1].data.push(metrics.uploadSpeed);
-        chart.data.datasets[2].data.push(metrics.latency);
-        chart.data.datasets[3].data.push(metrics.jitter);
-        chart.data.datasets[4].data.push(metrics.packetLoss);
-
-        // Remove old data points if we have more than maxDataPoints
-        if (chart.data.labels.length > maxDataPoints) {
-            chart.data.labels.shift();
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.shift();
-            });
-        }
-
-        chart.update();
-        console.log('Chart updated');
-    } catch (error) {
-        console.error('Error updating chart:', error);
     }
-}
+    
 
     async function downloadEventsCSV() {
         const data = await fetchNetworkEvents();
