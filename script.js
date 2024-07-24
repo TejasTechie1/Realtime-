@@ -842,7 +842,29 @@ async function logNetworkEvent(event) {
             sendEmailAlert('HIPAA Compliance Alert', 'HIPAA compliance check failed');
         }
     }
+
+
+    function initNotesPopup() {
+        const popup = document.getElementById("notesPopup");
+        const span = document.getElementsByClassName("close")[0];
+    
+        // Show the popup when the page loads
+        popup.style.display = "block";
+    
+        span.onclick = function() {
+            popup.style.display = "none";
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == popup) {
+                popup.style.display = "none";
+            }
+        }
+    }
+    
 async function init() {
+    initNotesPopup();
+
     await loadInitialData();
     initChart();
     updateNetworkStatus();
