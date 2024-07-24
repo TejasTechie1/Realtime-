@@ -216,6 +216,43 @@ h1 {
             padding-left: 15px;
         }
     }
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+    
+    .popup-content {
+        background-color: #f1f8e8;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
     .footer{
         background-color: #50B498;
         font-weight: 500;
@@ -226,29 +263,4 @@ h1 {
     }
     
 
-    }
-    .cards {margin-right: 5.3pc;
-        margin-left: 5.3pc;
-        background-color: #F1F8E8;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .cards:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
-    .cards h2 {
-        color: #343a40;
-        margin-top: 0;
-        font-size: 1.5em;
-        border-bottom: 2px solid #007bff;
-        padding-bottom: 10px;
-    }
-    @media (max-width: 768px) {
-        .cards {
-            margin-right: 20px;
-            margin-left: 19px;
-        }
     }
