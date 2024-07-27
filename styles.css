@@ -1,270 +1,134 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #D8EFD3;
-    color: #212529;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Network Monitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
+    <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+</head>
+<body>
+    <div id="offlineWarning">
+        You are currently offline. Some features may be unavailable.
+    </div>
+    <div class="header">
+        <h1>Real-Time Network Monitor</h1>
+    </div>
+    <div class="container">
+        <div class="dashboard">
+            <div class="card">
+                <h2>Network Status</h2>
+                <div id="networkStatus"></div>
+                <div id="networkType"></div>
+                <div id="connectionQuality"></div>
+            </div>
+            
+            <div class="card">
+                <h2>Real-time Network Metrics</h2>
+                <div class="metric">
+                    <span>Download Speed:</span>
+                    <span id="downloadSpeed" class="metric-value"></span>
+                </div>
+                <div class="metric">
+                    <span>Upload Speed:</span>
+                    <span id="uploadSpeed" class="metric-value"></span>
+                </div>
+                <div class="metric">
+                    <span>Latency:</span>
+                    <span id="latency" class="metric-value"></span>
+                </div>
+                <div class="metric">
+                    <span>Jitter:</span>
+                    <span id="jitter" class="metric-value"></span>
+                </div>
+                <div class="metric">
+                    <span>Packet Loss:</span>
+                    <span id="packetLoss" class="metric-value"></span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Network Information</h2>
+                <ul id="additionalInfo"></ul>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 20px;">
+            <h2>Network Performance Chart</h2>
+            <div class="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
+            <div class="button-container">
+                <button id="historicalDataBtn" class="btn">View Historical Data</button>
+                <button id="downloadCsvBtn" class="btn btn-secondary">Download CSV</button>
+                <button id="clearDataBtn" class="btn btn-danger">Clear Stored Data</button>
+            </div>
+        </div>
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-.header {
-    background-color: #007bff;
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-h1 {
-    margin: 0;
-    font-size: 2.5em;
-    font-weight: 700;
-}
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-.card {
-    background-color: #F1F8E8;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
-.card h2 {
-    color: #343a40;
-    margin-top: 0;
-    font-size: 1.5em;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
-}
-#networkStatus {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-top: 10px;
-}
-.metric {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-.metric-value {
-    font-weight: bold;
-    color: #007bff;
-}
-.chart-container {
-    position: relative;
-    height: 300px;
-    width: 100%;
-}
-#additionalInfo {
-    list-style-type: none;
-    padding: 0;
-}
-#additionalInfo li {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-.info-label {
-    font-weight: bold;
-}
-.info-value {
-    color: #007bff;
-}
-.btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1em;
-    font-weight: 500;
-}
-.btn:hover {
-    background-color: #0056b3;
-}
-.btn-danger {
-    background-color: #dc3545;
-}
-.btn-danger:hover {
-    background-color: #bd2130;
-}
-.button-container {
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-}
-.btn-secondary {
-    background-color: #6c757d;
-}
-.btn-secondary:hover {
-    background-color: #5a6268;
-}
-.footer {
-    background-color: #2383e3;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 0.9em;
-    margin-top: 20px;
-}
-.env-monitoring {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
+        <div class="card">
+            <h2>Network Events Log</h2>
+            <div id="networkEventsLog"></div>
+            <div class="button-container">
+            </div>
+        </div>
 
-.env-card {
-    background-color: #CDE8E5;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+        <div class="card">
+            <h2>Environmental Monitoring</h2>
+            <div class="env-monitoring">
+                <div class="env-card">
+                    <h3>Temperature</h3>
+                    <p id="temperature">Loading...</p>
+                </div>
+                <div class="env-card">
+                    <h3>Humidity</h3>
+                    <p id="humidity">Loading...</p>
+                </div>
+                <div class="env-card">
+                    <h3>Power Usage</h3>
+                    <p id="powerUsage">Loading...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Compliance Monitoring</h2>
+            <div class="compliance-status">
+                <div class="compliance-item">
+                    <span>GDPR Compliance</span>
+                    <span class="status-indicator" id="gdprStatus"></span>
+                </div>
+                <div class="compliance-item">
+                    <span>PCI DSS Compliance</span>
+                    <span class="status-indicator" id="pciDssStatus"></span>
+                </div>
+                <div class="compliance-item">
+                    <span>HIPAA Compliance</span>
+                    <span class="status-indicator" id="hipaaStatus"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="notesPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Attention🚨</h2>
+            <ul id="usageNotes">
+                <li>This tool is designed for monitoring network performance. Please use it on a stable Wi-Fi or wired connection for accurate results.</li>
+                <li>Do not use this tool on mobile data connections, as it may lead to inaccurate readings and potentially high data usage.</li>
+                <li>For best results, close other bandwidth-intensive applications while running tests.</li>
+                <li>The tool may temporarily affect network performance during active tests.</li>
+            </ul>
+        </div>
+    </div>
+    <footer class="footer">
+        COPYRIGHT © 2024 Tejas Agrahari - ALL RIGHTS RESERVED
+    </footer>
 
-.env-card h3 {
-    margin-top: 0;
-    color: #343a40;
-}
-
-@media (max-width: 768px) {
-    .env-monitoring {
-        grid-template-columns: 1fr;
-    }
-}
-.compliance-status {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #CDE8E5;
-    border-radius: 8px;
-}
-.compliance-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-.status-indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: inline-block;
-}
-.status-compliant {
-    background-color: #28a745;
-}
-.status-non-compliant {
-    background-color: #dc3545;
-}
-#offlineWarning {
-    background-color: #dc3545;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    display: none;
-}
-.network-event {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-
-@media (min-width: 320px) {
-    .info-label, .info-value {
-        display: contents;
-    }
-    .header{
-        background-color: #50B498;
-        margin-top: 10px;
-        font-size: 12px;
-        margin-left: 10px;
-        margin-right: 10px;
-        padding: 5px 14px 10px 10px;
-
-        border-radius: 9px;
-    }
-    #usageNotes {
-        padding-left: 20px;
-    }
-    
-    #usageNotes li {
-        margin-bottom: 10px;
-        line-height: 1.4;
-    }
-    
-    @media (max-width: 768px) {
-        #usageNotes {
-            padding-left: 15px;
-        }
-    }
-    .popup {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.4);
-    }
-    .popup h2{
-        color: red ;
-    }
-    
-    .popup-content {
-        background-color: #f1f8e8;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 600px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-    
-    .close:hover,
-    .close:focus {
-        color: red;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    
-    .footer{
-        background-color: #50B498;
-        font-weight: 500;
-        margin-bottom: 10px;
-        margin-left: 10px;
-        margin-right: 10px;
-        border-radius: 10px;
-    }
-    
-
-    }
+    <script src="script.js"></script>
+</body>
+</html>
