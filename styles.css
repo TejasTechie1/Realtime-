@@ -227,6 +227,9 @@ h1 {
         overflow: auto;
         background-color: rgba(0,0,0,0.4);
     }
+    .popup h2{
+        color: red ;
+    }
     
     .popup-content {
         background-color: #f1f8e8;
@@ -249,10 +252,11 @@ h1 {
     
     .close:hover,
     .close:focus {
-        color: #000;
+        color: red;
         text-decoration: none;
         cursor: pointer;
     }
+    
     .footer{
         background-color: #50B498;
         font-weight: 500;
