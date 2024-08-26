@@ -1,126 +1,132 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real-Time Network Monitor</title>
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='red'%3E%3Cpath d='M0.689453 6.99659C3.78027 4.49704 7.71526 3 11.9999 3C16.2845 3 20.2195 4.49704 23.3104 6.99659L21.4253 9.33049C18.8496 7.24753 15.5704 6 11.9999 6C8.42937 6 5.15021 7.24753 2.57453 9.33049L0.689453 6.99659ZM3.83124 10.8864C6.0635 9.08119 8.90544 8 11.9999 8C15.0944 8 17.9363 9.08119 20.1686 10.8864L18.2835 13.2203C16.5664 11.8317 14.3803 11 11.9999 11C9.61954 11 7.43344 11.8317 5.71632 13.2203L3.83124 10.8864ZM6.97304 14.7763C8.34673 13.6653 10.0956 13 11.9999 13C13.9042 13 15.6531 13.6653 17.0268 14.7763L15.1417 17.1102C14.2831 16.4158 13.1901 16 11.9999 16C10.8097 16 9.71667 16.4158 8.85811 17.1102L6.97304 14.7763ZM10.1148 18.6661C10.63 18.2495 11.2858 18 11.9999 18C12.714 18 13.3698 18.2495 13.885 18.6661L11.9999 21L10.1148 18.6661Z'%3E%3C/path%3E%3C/svg%3E"
-    >
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
     <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
 </head>
 <body>
-    <div id="offlineWarning">
-        You are currently offline. Some features may be unavailable.
+    <div id="offlineWarning" class="offline-warning">
+        <i class="fas fa-exclamation-triangle"></i> You are currently offline. Some features may be unavailable.
     </div>
-    <div class="header">
-        <h1>Real-Time Network Monitor</h1>
-    </div>
-    <div class="container">
-        <div class="dashboard">
-            <div class="card">
-                <h2>Network Status</h2>
-                <div id="networkStatus"></div>
-                <div id="networkType"></div>
-                <div id="connectionQuality"></div>
+    <header class="header">
+        <h1><i class="fas fa-network-wired"></i> Real-Time Network Packet Monitor</h1>
+    </header>
+    <main class="container">
+        <section class="dashboard">
+            <div class="card network-status">
+                <h2><i class="fas fa-signal"></i> Network Status</h2>
+                <div id="networkStatus" class="status-indicator"></div>
+                <div id="networkType" class="network-info"></div>
+                <div id="connectionQuality" class="connection-quality"></div>
             </div>
             
-            <div class="card">
-                <h2>Real-time Network Metrics</h2>
-                <div class="metric">
-                    <span>Download Speed:</span>
-                    <span id="downloadSpeed" class="metric-value"></span>
-                </div>
-                <div class="metric">
-                    <span>Upload Speed:</span>
-                    <span id="uploadSpeed" class="metric-value"></span>
-                </div>
-                <div class="metric">
-                    <span>Latency:</span>
-                    <span id="latency" class="metric-value"></span>
-                </div>
-                <div class="metric">
-                    <span>Jitter:</span>
-                    <span id="jitter" class="metric-value"></span>
-                </div>
-                <div class="metric">
-                    <span>Packet Loss:</span>
-                    <span id="packetLoss" class="metric-value"></span>
+            <div class="card network-metrics">
+                <h2><i class="fas fa-tachometer-alt"></i> Real-time Network Metrics</h2>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <i class="fas fa-download"></i>
+                        <span>Download Speed</span>
+                        <span id="downloadSpeed" class="metric-value"></span>
+                    </div>
+                    <div class="metric">
+                        <i class="fas fa-upload"></i>
+                        <span>Upload Speed</span>
+                        <span id="uploadSpeed" class="metric-value"></span>
+                    </div>
+                    <div class="metric">
+                        <i class="fas fa-stopwatch"></i>
+                        <span>Latency</span>
+                        <span id="latency" class="metric-value"></span>
+                    </div>
+                    <div class="metric">
+                        <i class="fas fa-random"></i>
+                        <span>Jitter</span>
+                        <span id="jitter" class="metric-value"></span>
+                    </div>
+                    <div class="metric">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Packet Loss</span>
+                        <span id="packetLoss" class="metric-value"></span>
+                    </div>
                 </div>
             </div>
-            
-            <div class="card">
-                <h2>Network Information</h2>
-                <ul id="additionalInfo"></ul>
+
+            <div class="card network-info">
+                <h2><i class="fas fa-info-circle"></i> Network Information</h2>
+                <ul id="additionalInfo" class="info-list"></ul>
             </div>
-        </div>
+        </section>
         
-        <div class="card" style="margin-top: 20px;">
-            <h2>Network Performance Chart</h2>
+        <section class="card performance-chart">
+            <h2><i class="fas fa-chart-line"></i> Network Performance Chart</h2>
             <div class="chart-container">
                 <canvas id="chart"></canvas>
             </div>
             <div class="button-container">
-                <button id="historicalDataBtn" class="btn">View Historical Data</button>
-                <button id="downloadCsvBtn" class="btn btn-secondary">Download CSV</button>
-                <button id="clearDataBtn" class="btn btn-danger">Clear Stored Data</button>
+                <button id="historicalDataBtn" class="btn"><i class="fas fa-history"></i> View Historical Data</button>
+                <button id="downloadCsvBtn" class="btn btn-secondary"><i class="fas fa-download"></i> Download CSV</button>
+                <button id="clearDataBtn" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Clear Stored Data</button>
             </div>
-        </div>
+        </section>
 
-        <div class="card">
-            <h2>Network Events Log</h2>
-            <div id="networkEventsLog"></div>
-            <div class="button-container">
-            </div>
-        </div>
+        <section class="card network-events">
+            <h2><i class="fas fa-list-alt"></i> Network Events Log</h2>
+            <div id="networkEventsLog" class="events-log"></div>
+        </section>
 
-        <div class="card">
-            <h2>Environmental Monitoring</h2>
+        <section class="card environmental-monitoring">
+            <h2><i class="fas fa-leaf"></i> Environmental Monitoring</h2>
             <div class="env-monitoring">
                 <div class="env-card">
+                    <i class="fas fa-thermometer-half"></i>
                     <h3>Temperature</h3>
                     <p id="temperature">Loading...</p>
                 </div>
                 <div class="env-card">
+                    <i class="fas fa-tint"></i>
                     <h3>Humidity</h3>
                     <p id="humidity">Loading...</p>
                 </div>
                 <div class="env-card">
+                    <i class="fas fa-bolt"></i>
                     <h3>Power Usage</h3>
                     <p id="powerUsage">Loading...</p>
                 </div>
             </div>
-        </div>
+        </section>
         
-        <div class="card">
-            <h2>Compliance Monitoring</h2>
+        <section class="card compliance-monitoring">
+            <h2><i class="fas fa-shield-alt"></i> Compliance Monitoring</h2>
             <div class="compliance-status">
                 <div class="compliance-item">
-                    <span>GDPR Compliance</span>
+                    <span><i class="fas fa-check-circle"></i> GDPR Compliance</span>
                     <span class="status-indicator" id="gdprStatus"></span>
                 </div>
                 <div class="compliance-item">
-                    <span>PCI DSS Compliance</span>
+                    <span><i class="fas fa-credit-card"></i> PCI DSS Compliance</span>
                     <span class="status-indicator" id="pciDssStatus"></span>
                 </div>
                 <div class="compliance-item">
-                    <span>HIPAA Compliance</span>
+                    <span><i class="fas fa-hospital"></i> HIPAA Compliance</span>
                     <span class="status-indicator" id="hipaaStatus"></span>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
+
     <div id="notesPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
-            <h2>Important <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 15H13V17H11V15ZM11 7H13V13H11V7Z"></path></svg></h2>
-            <ul id="usageNotes">
+            <h2><i class="fas fa-exclamation-triangle"></i> Attention</h2>
+            <ul id="usageNotes" class="usage-notes">
                 <li>This tool is designed for monitoring network performance. Please use it on a stable Wi-Fi or wired connection for accurate results.</li>
                 <li>Do not use this tool on mobile data connections, as it may lead to inaccurate readings and potentially high data usage.</li>
                 <li>For best results, close other bandwidth-intensive applications while running tests.</li>
@@ -128,8 +134,9 @@
             </ul>
         </div>
     </div>
+
     <footer class="footer">
-        COPYRIGHT © 2024 Tejas Agrahari - ALL RIGHTS RESERVED
+        <p>COPYRIGHT © 2024 Tejas Agrahari - ALL RIGHTS RESERVED</p>
     </footer>
 
     <script src="script.js"></script>
