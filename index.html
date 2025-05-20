@@ -6,6 +6,7 @@
     <title>Real-Time Network Monitor</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/dark-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
@@ -18,6 +19,10 @@
     </div>
     <header class="header">
         <h1><i class="fas fa-network-wired"></i> Real-Time Network Packet Monitor</h1>
+        <div>
+            <button id="themeSwitcherHeader" class="btn" style="display: none;"><i class="fas fa-moon"></i></button>
+            <button id="settingsBtn" class="btn"><i class="fas fa-cog"></i></button>
+        </div>
     </header>
     <main class="container">
         <section class="dashboard">
@@ -31,27 +36,27 @@
             <div class="card network-metrics">
                 <h2><i class="fas fa-tachometer-alt"></i> Real-time Network Metrics</h2>
                 <div class="metrics-grid">
-                    <div class="metric">
+                    <div class="metric" id="downloadSpeedMetric">
                         <i class="fas fa-download"></i>
                         <span>Download Speed</span>
                         <span id="downloadSpeed" class="metric-value"></span>
                     </div>
-                    <div class="metric">
+                    <div class="metric" id="uploadSpeedMetric">
                         <i class="fas fa-upload"></i>
                         <span>Upload Speed</span>
                         <span id="uploadSpeed" class="metric-value"></span>
                     </div>
-                    <div class="metric">
+                    <div class="metric" id="latencyMetric">
                         <i class="fas fa-stopwatch"></i>
                         <span>Latency</span>
                         <span id="latency" class="metric-value"></span>
                     </div>
-                    <div class="metric">
+                    <div class="metric" id="jitterMetric">
                         <i class="fas fa-random"></i>
                         <span>Jitter</span>
                         <span id="jitter" class="metric-value"></span>
                     </div>
-                    <div class="metric">
+                    <div class="metric" id="packetLossMetric">
                         <i class="fas fa-exclamation-circle"></i>
                         <span>Packet Loss</span>
                         <span id="packetLoss" class="metric-value"></span>
@@ -67,6 +72,16 @@
         
         <section class="card performance-chart">
             <h2><i class="fas fa-chart-line"></i> Network Performance Chart</h2>
+            <div class="metric-selection-controls">
+                <h4>Select Metrics to Display:</h4>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="showDownloadSpeed" data-dataset-index="0" checked> <label for="showDownloadSpeed">Download</label>
+                    <input type="checkbox" id="showUploadSpeed" data-dataset-index="1" checked> <label for="showUploadSpeed">Upload</label>
+                    <input type="checkbox" id="showLatency" data-dataset-index="2" checked> <label for="showLatency">Latency</label>
+                    <input type="checkbox" id="showJitter" data-dataset-index="3" checked> <label for="showJitter">Jitter</label>
+                    <input type="checkbox" id="showPacketLoss" data-dataset-index="4" checked> <label for="showPacketLoss">Packet Loss</label>
+                </div>
+            </div>
             <div class="chart-container">
                 <canvas id="chart"></canvas>
             </div>
@@ -77,9 +92,52 @@
             </div>
         </section>
 
+        <section class="card average-metrics-chart-card">
+            <h2><i class="fas fa-chart-bar"></i> Average Network Metrics</h2>
+            <div class="chart-container">
+                <canvas id="averageMetricsChart"></canvas>
+            </div>
+            <div class="button-container">
+                <button id="refreshAverageMetricsBtn" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Calculate/Refresh Averages</button>
+            </div>
+        </section>
+
+        <!-- Alert Settings Card (hidden, content moved to modal) -->
+        <section class="card alert-settings" id="alertSettingsCard" style="display: none;">
+            <h2><i class="fas fa-bell"></i> Alert Settings</h2>
+            <div class="alert-settings-form">
+                <div class="alert-setting-item">
+                    <label for="minDownloadSpeed">Min Download Speed (Gbps):</label>
+                    <input type="number" id="minDownloadSpeed" name="minDownloadSpeed" step="0.01" class="form-control">
+                </div>
+                <div class="alert-setting-item">
+                    <label for="minUploadSpeed">Min Upload Speed (Gbps):</label>
+                    <input type="number" id="minUploadSpeed" name="minUploadSpeed" step="0.01" class="form-control">
+                </div>
+                <div class="alert-setting-item">
+                    <label for="maxLatency">Max Latency (ms):</label>
+                    <input type="number" id="maxLatency" name="maxLatency" step="1" class="form-control">
+                </div>
+                <div class="alert-setting-item">
+                    <label for="maxJitter">Max Jitter (ms):</label>
+                    <input type="number" id="maxJitter" name="maxJitter" step="1" class="form-control">
+                </div>
+                <div class="alert-setting-item">
+                    <label for="maxPacketLoss">Max Packet Loss (%):</label>
+                    <input type="number" id="maxPacketLoss" name="maxPacketLoss" step="0.1" class="form-control">
+                </div>
+                <button id="saveAlertSettingsBtn" class="btn btn-primary"><i class="fas fa-save"></i> Save Alert Settings</button>
+            </div>
+        </section>
+
         <section class="card network-events">
             <h2><i class="fas fa-list-alt"></i> Network Events Log</h2>
             <div id="networkEventsLog" class="events-log"></div>
+            <div class="button-container">
+                <button id="viewEventsLogBtn" class="btn"><i class="fas fa-book-open"></i> View Full Log</button>
+                <button id="downloadEventsCsvBtn" class="btn btn-secondary"><i class="fas fa-download"></i> Download Log CSV</button>
+                <button id="clearEventsDataBtn" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Clear Log Data</button>
+            </div>
         </section>
 
         <section class="card environmental-monitoring">
@@ -132,6 +190,52 @@
                 <li>For best results, close other bandwidth-intensive applications while running tests.</li>
                 <li>The tool may temporarily affect network performance during active tests.</li>
             </ul>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-cog"></i> Settings</h2>
+                <span class="close-button" id="closeSettingsModalBtn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <section class="settings-section theme-settings">
+                    <h3><i class="fas fa-palette"></i> Theme</h3>
+                    <button id="themeSwitcherModal" class="btn"><i class="fas fa-moon"></i> Toggle Dark/Light Mode</button>
+                </section>
+
+                <hr>
+
+                <section class="settings-section alert-config-section">
+                    <h3><i class="fas fa-bell"></i> Alert Configuration</h3>
+                    <div id="modalAlertSettingsContent">
+                        <!-- Placeholder for alert settings form -->
+                    </div>
+                </section>
+
+                <hr>
+
+                <section class="settings-section data-retention-settings">
+                    <h3><i class="fas fa-database"></i> Data Retention</h3>
+                    <div class="data-retention-form">
+                        <label for="dataRetentionPeriod">Clear data older than:</label>
+                        <select id="dataRetentionPeriod" name="dataRetentionPeriod" class="form-control">
+                            <option value="1">1 day</option>
+                            <option value="7">7 days</option>
+                            <option value="30" selected>30 days</option>
+                            <option value="90">90 days</option>
+                            <option value="0">Forever</option>
+                        </select>
+                        <button id="saveDataRetentionBtn" class="btn btn-primary"><i class="fas fa-save"></i> Save Retention Policy</button>
+                        <button id="applyDataRetentionBtn" class="btn btn-secondary"><i class="fas fa-check-circle"></i> Apply Now</button>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button id="closeSettingsModalFooterBtn" class="btn btn-secondary">Close</button>
+            </div>
         </div>
     </div>
 
