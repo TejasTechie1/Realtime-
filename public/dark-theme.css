@@ -1,0 +1,246 @@
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode .card {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-color: #2c2c2c;
+}
+
+body.dark-mode header {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-bottom-color: #2c2c2c;
+}
+
+body.dark-mode footer {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-top-color: #2c2c2c;
+}
+
+body.dark-mode .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #ffffff;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #ffffff;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #545b62;
+    border-color: #545b62;
+}
+
+body.dark-mode .form-control {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border-color: #3c3c3c;
+}
+
+body.dark-mode .form-control:focus {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Dark Mode Metric Selection Controls */
+body.dark-mode .metric-selection-controls {
+    background-color: #232323; /* Slightly different shade from card for distinction */
+    border-color: #3c3c3c;
+}
+
+body.dark-mode .metric-selection-controls h4 {
+    color: #e0e0e0; /* Lighter text for heading */
+}
+
+body.dark-mode .checkbox-group label {
+    color: #d0d0d0; /* Lighter text for labels */
+}
+
+body.dark-mode .checkbox-group input[type="checkbox"] {
+    accent-color: #007bff; /* Keep primary color for accent or choose a lighter variant */
+    /* For browsers not supporting accent-color, you might need ::before/::after pseudo-elements if default is not good */
+}
+
+/* Dark Mode Average Metrics Chart Card */
+body.dark-mode .average-metrics-chart-card {
+    /* General .card styles in dark mode are already applied */
+    /* No specific overrides needed unless behavior differs */
+}
+
+/* Ensure chart.js in dark mode has legible text and scales if not handled by Chart.js options */
+body.dark-mode #averageMetricsChart {
+    /* If chart.js options for colors are not enough, you might style the container or pass options directly */
+}
+
+body.dark-mode .modal-content {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-mode .table {
+    color: #ffffff;
+}
+
+body.dark-mode .table th,
+body.dark-mode .table td {
+    border-color: #2c2c2c;
+}
+
+body.dark-mode .nav-link {
+    color: #adb5bd;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #ffffff;
+}
+
+/* Specific styles for chart elements if needed */
+body.dark-mode #expenseChart {
+    /* Example: Chart.js might need specific options for dark mode
+       or you might need to style its container if it's not picking up body styles */
+}
+
+body.dark-mode .metric h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .metric p {
+    color: #adb5bd;
+}
+
+/* Dark Mode Alert Settings Card */
+body.dark-mode .alert-settings .form-control {
+    background-color: #2c2c2c; /* Same as other form-controls in dark mode */
+    color: #ffffff;
+    border-color: #3c3c3c;
+}
+
+body.dark-mode .alert-settings .form-control:focus {
+    border-color: #007bff; /* Highlight focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+body.dark-mode .alert-setting-item label {
+    color: #ffffff; /* Ensure labels are white in dark mode */
+}
+
+/* Dark Mode Metric Alert Styling */
+body.dark-mode .metric.metric-alert {
+    background-color: #522020; /* Darker red background for alert in dark mode */
+    border-left: 5px solid #dc3545; /* Red left border for emphasis */
+    /* animation: pulse-alert-dark 1.5s infinite; */ /* Optionally define a dark-specific animation or use the light one if it looks okay */
+}
+
+body.dark-mode .metric.metric-alert .metric-value {
+    color: #ff8080; /* Lighter red text for the value in alert state for dark mode */
+}
+
+/* If using a specific dark animation for pulse */
+/* @keyframes pulse-alert-dark {
+    0% {
+        background-color: #522020;
+    }
+    50% {
+        background-color: #672a2a;
+    }
+    100% {
+        background-color: #522020;
+    }
+} */
+
+/* Dark Mode Settings Modal Styles */
+body.dark-mode .modal-content {
+    background-color: #1e1e1e; /* Same as .card in dark mode */
+    color: #ffffff;
+    border-color: #2c2c2c; /* Slightly lighter border for visibility */
+}
+
+body.dark-mode .modal-header {
+    background-color: #2c2c2c; /* Darker header for modal */
+    color: #ffffff;
+    border-bottom-color: #3c3c3c; /* Separator line */
+}
+
+body.dark-mode .modal-header h2 {
+    color: #ffffff;
+}
+
+body.dark-mode .close-button {
+    color: #bbbbbb; /* Lighter than pure white for less starkness */
+}
+
+body.dark-mode .close-button:hover,
+body.dark-mode .close-button:focus {
+    color: #ffffff;
+}
+
+body.dark-mode .modal-body {
+    /* No specific change needed if it inherits from .modal-content */
+}
+
+body.dark-mode .modal-footer {
+    background-color: #2c2c2c; /* Match modal header */
+    border-top-color: #3c3c3c;
+}
+
+body.dark-mode .settings-section {
+    border-bottom-color: #3c3c3c; /* Separator for sections */
+}
+
+body.dark-mode .settings-section h3 {
+    color: #0095ff; /* Brighter blue for heading in dark mode */
+}
+
+body.dark-mode .settings-section h3 i {
+    color: #0095ff; /* Ensure icon matches heading color */
+}
+
+
+/* Dark Mode for moved/new elements in modal */
+body.dark-mode #themeSwitcherModal {
+    /* Button styles are general, ensure they are picked up or add specifics */
+    background-color: #007bff; /* Example, if not inheriting correctly */
+    border-color: #007bff;
+}
+body.dark-mode #themeSwitcherModal:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+
+body.dark-mode .alert-config-section .alert-settings-form .form-control {
+    /* Already covered by general body.dark-mode .form-control */
+}
+body.dark-mode .alert-config-section .alert-settings-form label {
+    /* Already covered by body.dark-mode .alert-setting-item label */
+}
+
+
+body.dark-mode .data-retention-form label {
+    color: #ffffff;
+}
+
+body.dark-mode .data-retention-form select.form-control {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border-color: #3c3c3c;
+}
+
+body.dark-mode .data-retention-form select.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
